@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Walk Plan 2026</title>
+    <title>Safety Walk Plan 2026 - Master</title>
     <style>
         :root {
             --color-martin: #27ae60;
             --color-team: #2980b9;
             --color-holiday: #e74c3c;
-            --bg-header: #34495e;
-            --bg-row-hover: #f9f9f9;
+            --bg-header: #2c3e50;
+            --bg-btn: #2980b9;
         }
 
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f4f4f9; 
+            background-color: #f0f2f5; 
             color: #333; 
             padding: 20px; 
             margin: 0;
@@ -29,57 +29,57 @@
             border-radius: 8px;
             overflow: hidden;
             position: relative;
+            padding-bottom: 20px;
         }
 
-        h1 { 
-            text-align: center; 
-            color: var(--bg-header); 
-            margin-top: 30px;
-            margin-bottom: 10px;
+        h1 { text-align: center; color: var(--bg-header); margin-top: 30px; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 0.9em; }
+
+        /* Controls Section */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            background-color: #ecf0f1;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #bdc3c7;
         }
 
-        .subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            margin-bottom: 30px;
-            font-size: 0.9em;
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        /* Print Button */
-        .print-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: var(--bg-header);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background 0.2s;
-        }
-        .print-btn:hover { background-color: #2c3e50; }
+        label { font-size: 0.8em; font-weight: bold; color: #7f8c8d; }
 
-        /* Legend */
-        .legend { 
-            display: flex; 
-            justify-content: center; 
-            gap: 25px; 
-            margin-bottom: 25px; 
-            font-size: 0.9em; 
+        select, input[type="time"] {
             padding: 10px;
-            background: #ecf0f1;
-            border-radius: 4px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
-        .legend-item { display: flex; align-items: center; gap: 8px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .dot.martin { background-color: var(--color-martin); }
-        .dot.team { background-color: var(--color-team); }
-        .dot.holiday { background-color: var(--color-holiday); opacity: 0.5; }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
+            color: white;
+            height: 42px;
+            margin-top: 19px; /* Align with inputs */
+        }
+
+        .btn-outlook { background-color: var(--bg-btn); display: none; }
+        .btn-outlook:hover { background-color: #1c5980; }
+        .btn-print { background-color: #7f8c8d; }
+        .btn-print:hover { background-color: #616b6b; }
 
         /* Grid Layout */
         .header-row {
@@ -91,7 +91,6 @@
             padding: 12px 15px;
             position: sticky;
             top: 0;
-            z-index: 10;
             font-size: 0.95em;
         }
 
@@ -103,172 +102,307 @@
             height: 44px;
             font-size: 0.9em;
         }
-
         .row:nth-child(even) { background-color: #fafafa; }
-        .row:hover { background-color: #f0f0f0; }
-
-        .col-week { 
-            text-align: center; 
-            font-weight: bold; 
-            color: #7f8c8d; 
-            border-right: 1px solid #eee;
-        }
-        .col-date { 
-            padding-left: 10px;
-            color: #95a5a6; 
-            font-size: 0.85em;
-            border-right: 1px solid #eee;
-        }
+        .col-week { text-align: center; font-weight: bold; color: #7f8c8d; border-right: 1px solid #eee; }
+        .col-date { padding-left: 10px; color: #95a5a6; font-size: 0.85em; border-right: 1px solid #eee; }
         
-        /* Bars */
-        .bar-cell { padding: 4px 8px; height: 100%; display: flex; align-items: center; box-sizing: border-box; }
-        
+        .bar-cell { padding: 4px 8px; height: 100%; display: flex; align-items: center; }
         .bar {
-            height: 30px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            color: white;
-            width: 100%;
-            font-weight: 500;
-            font-size: 0.9em;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            height: 30px; border-radius: 4px; display: flex; align-items: center;
+            padding-left: 10px; color: white; width: 100%; font-weight: 500; font-size: 0.85em;
         }
-
         .bar.martin { background-color: var(--color-martin); }
         .bar.team { background-color: var(--color-team); }
         
-        /* Special Rows */
         .quarter-divider {
-            background-color: #dfe6e9;
-            color: #2d3436;
-            padding: 8px 15px;
-            font-size: 0.85em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-            border-top: 2px solid #bdc3c7;
-            border-bottom: 1px solid #bdc3c7;
-            margin-top: 0;
+            background-color: #dfe6e9; color: #2d3436; padding: 8px 15px;
+            font-size: 0.85em; text-transform: uppercase; font-weight: bold;
+            border-top: 2px solid #bdc3c7; border-bottom: 1px solid #bdc3c7;
         }
 
         .row.holiday { background-color: #ffe6e6; }
         .holiday-text { 
-            color: #c0392b; 
-            font-weight: bold; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100%; 
-            width: 100%; 
-            grid-column: 3 / 5; 
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 0.85em;
+            color: #c0392b; font-weight: bold; display: flex; align-items: center; 
+            justify-content: center; width: 100%; grid-column: 3 / 5; letter-spacing: 2px;
         }
 
-        /* Print Settings */
         @media print {
-            body { background: white; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .container { box-shadow: none; margin: 0; width: 100%; max-width: 100%; }
-            .print-btn { display: none; }
-            h1 { font-size: 1.5em; margin-top: 0; }
-            .subtitle { margin-bottom: 10px; }
-            .legend { border: 1px solid #ddd; padding: 5px; gap: 15px; margin-bottom: 10px;}
-            .header-row { background-color: #34495e !important; color: white !important; }
-            .bar.martin { background-color: #27ae60 !important; color: white !important; }
-            .bar.team { background-color: #2980b9 !important; color: white !important; }
-            .row.holiday { background-color: #ffe6e6 !important; }
-            .row { height: 35px; page-break-inside: avoid; }
-            .bar { height: 24px; font-size: 0.8em; }
+            .controls, .btn { display: none; }
+            body { background: white; }
+            .container { box-shadow: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <button class="print-btn" onclick="window.print()">🖨️ Print Plan</button>
-        
-        <h1>Safety Walk & Talk 2026</h1>
-        <div class="subtitle">Oversigt over sikkerhedsrundgange og safety walks</div>
-        
-        <div class="legend">
-            <div class="legend-item"><div class="dot martin"></div><div>Martin (Sikkerhedsrundgang)</div></div>
-            <div class="legend-item"><div class="dot team"></div><div>Team (Safety Walk & Talk)</div></div>
-            <div class="legend-item"><div class="dot holiday"></div><div>Ferie</div></div>
+<div class="container">
+    <h1>Safety Walk & Talk 2026</h1>
+    <div class="subtitle">Vælg navn og tidspunkt for at hente din personlige plan til Outlook</div>
+
+    <div class="controls">
+        <div class="control-group">
+            <label for="nameFilter">Vælg Navn:</label>
+            <select id="nameFilter" onchange="filterSchedule()">
+                <option value="Alle">Vis Alle</option>
+                <option value="Hans">Hans</option>
+                <option value="Johannes">Johannes</option>
+                <option value="Kristian">Kristian</option>
+                <option value="Mona">Mona</option>
+                <option value="Charlotte">Charlotte</option>
+                <option value="Claus">Claus</option>
+                <option value="Kasper">Kasper</option>
+                <option value="Martin">Martin</option>
+                <option value="Peter">Peter</option>
+            </select>
         </div>
 
-        <div class="header-row">
-            <div>Uge</div>
-            <div>Dato</div>
-            <div>Spor 1: Martin</div>
-            <div>Spor 2: Team</div>
+        <div class="control-group" id="timeGroup" style="display:none;">
+            <label for="timeSelect">Foretrukket tidspunkt:</label>
+            <input type="time" id="timeSelect" value="09:00">
         </div>
-
-        <div class="quarter-divider">1. Kvartal</div>
-        <div class="row"><div class="col-week">1</div><div class="col-date">29. dec</div><div class="bar-cell"><div class="bar martin">Martin (Opstart)</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">2</div><div class="col-date">05. jan</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Hans & Johannes</div></div></div>
-        <div class="row"><div class="col-week">3</div><div class="col-date">12. jan</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">4</div><div class="col-date">19. jan</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Kristian & Mona</div></div></div>
-        <div class="row"><div class="col-week">5</div><div class="col-date">26. jan</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">6</div><div class="col-date">02. feb</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Charlotte & Claus</div></div></div>
-        <div class="row"><div class="col-week">7</div><div class="col-date">09. feb</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">8</div><div class="col-date">16. feb</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Kasper & Martin</div></div></div>
-        <div class="row"><div class="col-week">9</div><div class="col-date">23. feb</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">10</div><div class="col-date">02. mar</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Peter & Hans</div></div></div>
-        <div class="row"><div class="col-week">11</div><div class="col-date">09. mar</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">12</div><div class="col-date">16. mar</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Johannes & Kristian</div></div></div>
-        <div class="row"><div class="col-week">13</div><div class="col-date">23. mar</div><div class="bar-cell"><div class="bar martin">Martin (Påskeuge)</div></div><div class="bar-cell"></div></div>
-
-        <div class="quarter-divider">2. Kvartal</div>
-        <div class="row"><div class="col-week">14</div><div class="col-date">30. mar</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Mona & Charlotte</div></div></div>
-        <div class="row"><div class="col-week">15</div><div class="col-date">06. apr</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">16</div><div class="col-date">13. apr</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Claus & Kasper</div></div></div>
-        <div class="row"><div class="col-week">17</div><div class="col-date">20. apr</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">18</div><div class="col-date">27. apr</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Martin & Peter</div></div></div>
-        <div class="row"><div class="col-week">19</div><div class="col-date">04. maj</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">20</div><div class="col-date">11. maj</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Hans & Johannes</div></div></div>
-        <div class="row"><div class="col-week">21</div><div class="col-date">18. maj</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">22</div><div class="col-date">25. maj</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Kristian & Mona</div></div></div>
-        <div class="row"><div class="col-week">23</div><div class="col-date">01. jun</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">24</div><div class="col-date">08. jun</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Charlotte & Claus</div></div></div>
-        <div class="row"><div class="col-week">25</div><div class="col-date">15. jun</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">26</div><div class="col-date">22. jun</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Kasper & Martin</div></div></div>
-
-        <div class="quarter-divider">3. Kvartal (Sommer)</div>
-        <div class="row"><div class="col-week">27</div><div class="col-date">29. jun</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
         
-        <div class="row holiday"><div class="col-week">28</div><div class="col-date">06. jul</div><div class="holiday-text">SOMMERFERIE</div></div>
-        <div class="row holiday"><div class="col-week">29</div><div class="col-date">13. jul</div><div class="holiday-text">SOMMERFERIE</div></div>
-        <div class="row holiday"><div class="col-week">30</div><div class="col-date">20. jul</div><div class="holiday-text">SOMMERFERIE</div></div>
-
-        <div class="row"><div class="col-week">31</div><div class="col-date">27. jul</div><div class="bar-cell"><div class="bar martin">Martin (Opstart)</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">32</div><div class="col-date">03. aug</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Peter & Hans</div></div></div>
-        <div class="row"><div class="col-week">33</div><div class="col-date">10. aug</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">34</div><div class="col-date">17. aug</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Johannes & Kristian</div></div></div>
-        <div class="row"><div class="col-week">35</div><div class="col-date">24. aug</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">36</div><div class="col-date">31. aug</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Mona & Charlotte</div></div></div>
-        <div class="row"><div class="col-week">37</div><div class="col-date">07. sep</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">38</div><div class="col-date">14. sep</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Claus & Kasper</div></div></div>
-        <div class="row"><div class="col-week">39</div><div class="col-date">21. sep</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-
-        <div class="quarter-divider">4. Kvartal</div>
-        <div class="row"><div class="col-week">40</div><div class="col-date">28. sep</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Martin & Peter</div></div></div>
-        <div class="row"><div class="col-week">41</div><div class="col-date">05. okt</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">42</div><div class="col-date">12. okt</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Hans & Johannes</div></div></div>
-        <div class="row"><div class="col-week">43</div><div class="col-date">19. okt</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">44</div><div class="col-date">26. okt</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Kristian & Mona</div></div></div>
-        <div class="row"><div class="col-week">45</div><div class="col-date">02. nov</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">46</div><div class="col-date">09. nov</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Charlotte & Claus</div></div></div>
-        <div class="row"><div class="col-week">47</div><div class="col-date">16. nov</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">48</div><div class="col-date">23. nov</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Kasper & Martin</div></div></div>
-        <div class="row"><div class="col-week">49</div><div class="col-date">30. nov</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">50</div><div class="col-date">07. dec</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Peter & Hans</div></div></div>
-        <div class="row"><div class="col-week">51</div><div class="col-date">14. dec</div><div class="bar-cell"><div class="bar martin">Martin</div></div><div class="bar-cell"></div></div>
-        <div class="row"><div class="col-week">52</div><div class="col-date">21. dec</div><div class="bar-cell"></div><div class="bar-cell"><div class="bar team">Johannes & Kristian</div></div></div>
-        <div class="row"><div class="col-week">53</div><div class="col-date">28. dec</div><div class="bar-cell"><div class="bar martin">Martin (Nytår)</div></div><div class="bar-cell"></div></div>
-
+        <button class="btn btn-outlook" id="outlookBtn" onclick="downloadICS()">📅 Hent kalenderfil</button>
+        <button class="btn btn-print" onclick="window.print()">🖨️ Print listen</button>
     </div>
+
+    <div class="header-row">
+        <div>Uge</div>
+        <div>Dato</div>
+        <div>Martin Solo</div>
+        <div>Safety Walk Team</div>
+    </div>
+
+    <div id="schedule-container">
+        </div>
+</div>
+
+<script>
+    // Configuration
+    const martinLabel = "Martins planlagte sikkerhedsrundgange hver 2. uge";
+    const linkChecklist = "https://eropexvam.ecos.dk/#/tjeklister/60af5160f88629d31c4b935e";
+    const linkSharepoint = "https://rockwool.sharepoint.com/:w:/s/RWNordics/Departments/Production/Internal/VAM/EabLKDtF_nFIs0A-qfqKeSEBbLyUGrvSKyneHZ5dpMairA?e=JamNcN";
+
+    // Data
+    const schedule = [
+        { q: "1. Kvartal", w: 1, d: "29. dec", type: "martin", txt: "Opstart", dateISO: "20251229" },
+        { w: 2, d: "05. jan", type: "team", p1: "Hans", p2: "Kristian", dateISO: "20260105" },
+        { w: 3, d: "12. jan", type: "martin", txt: "", dateISO: "20260112" },
+        { w: 4, d: "19. jan", type: "team", p1: "Johannes", p2: "Mona", dateISO: "20260119" },
+        { w: 5, d: "26. jan", type: "martin", txt: "", dateISO: "20260126" },
+        { w: 6, d: "02. feb", type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20260202" },
+        { w: 7, d: "09. feb", type: "martin", txt: "", dateISO: "20260209" },
+        { w: 8, d: "16. feb", type: "team", p1: "Kasper", p2: "Peter", dateISO: "20260216" },
+        { w: 9, d: "23. feb", type: "martin", txt: "", dateISO: "20260223" },
+        { w: 10, d: "02. mar", type: "team", p1: "Martin", p2: "Hans", dateISO: "20260302" },
+        { w: 11, d: "09. mar", type: "martin", txt: "", dateISO: "20260309" },
+        { w: 12, d: "16. mar", type: "team", p1: "Kristian", p2: "Johannes", dateISO: "20260316" },
+        { w: 13, d: "23. mar", type: "martin", txt: "Påskeuge", dateISO: "20260323" },
+
+        { q: "2. Kvartal", w: 14, d: "30. mar", type: "team", p1: "Mona", p2: "Claus", dateISO: "20260330" },
+        { w: 15, d: "06. apr", type: "martin", txt: "", dateISO: "20260406" },
+        { w: 16, d: "13. apr", type: "team", p1: "Charlotte", p2: "Kasper", dateISO: "20260413" },
+        { w: 17, d: "20. apr", type: "martin", txt: "", dateISO: "20260420" },
+        { w: 18, d: "27. apr", type: "team", p1: "Peter", p2: "Martin", dateISO: "20260427" },
+        { w: 19, d: "04. maj", type: "martin", txt: "", dateISO: "20260504" },
+        { w: 20, d: "11. maj", type: "team", p1: "Hans", p2: "Johannes", dateISO: "20260511" },
+        { w: 21, d: "18. maj", type: "martin", txt: "", dateISO: "20260518" },
+        { w: 22, d: "25. maj", type: "team", p1: "Kristian", p2: "Mona", dateISO: "20260525" },
+        { w: 23, d: "01. jun", type: "martin", txt: "", dateISO: "20260601" },
+        { w: 24, d: "08. jun", type: "team", p1: "Claus", p2: "Charlotte", dateISO: "20260608" },
+        { w: 25, d: "15. jun", type: "martin", txt: "", dateISO: "20260615" },
+        { w: 26, d: "22. jun", type: "team", p1: "Kasper", p2: "Martin", dateISO: "20260622" },
+
+        { q: "3. Kvartal (Sommer)", w: 27, d: "29. jun", type: "martin", txt: "", dateISO: "20260629" },
+        { w: 28, d: "06. jul", type: "holiday", txt: "SOMMERFERIE" },
+        { w: 29, d: "13. jul", type: "holiday", txt: "SOMMERFERIE" },
+        { w: 30, d: "20. jul", type: "holiday", txt: "SOMMERFERIE" },
+        { w: 31, d: "27. jul", type: "martin", txt: "Opstart", dateISO: "20260727" },
+        { w: 32, d: "03. aug", type: "team", p1: "Peter", p2: "Hans", dateISO: "20260803" },
+        { w: 33, d: "10. aug", type: "martin", txt: "", dateISO: "20260810" },
+        { w: 34, d: "17. aug", type: "team", p1: "Johannes", p2: "Claus", dateISO: "20260817" },
+        { w: 35, d: "24. aug", type: "martin", txt: "", dateISO: "20260824" },
+        { w: 36, d: "31. aug", type: "team", p1: "Kristian", p2: "Charlotte", dateISO: "20260831" },
+        { w: 37, d: "07. sep", type: "martin", txt: "", dateISO: "20260907" },
+        { w: 38, d: "14. sep", type: "team", p1: "Mona", p2: "Kasper", dateISO: "20260914" },
+        { w: 39, d: "21. sep", type: "martin", txt: "", dateISO: "20260921" },
+
+        { q: "4. Kvartal", w: 40, d: "28. sep", type: "team", p1: "Martin", p2: "Peter", dateISO: "20260928" },
+        { w: 41, d: "05. okt", type: "martin", txt: "", dateISO: "20261005" },
+        { w: 42, d: "12. okt", type: "team", p1: "Hans", p2: "Mona", dateISO: "20261012" },
+        { w: 43, d: "19. okt", type: "martin", txt: "", dateISO: "20261019" },
+        { w: 44, d: "26. okt", type: "team", p1: "Johannes", p2: "Kasper", dateISO: "20261026" },
+        { w: 45, d: "02. nov", type: "martin", txt: "", dateISO: "20261102" },
+        { w: 46, d: "09. nov", type: "team", p1: "Kristian", p2: "Peter", dateISO: "20261109" },
+        { w: 47, d: "16. nov", type: "martin", txt: "", dateISO: "20261116" },
+        { w: 48, d: "23. nov", type: "team", p1: "Claus", p2: "Martin", dateISO: "20261123" },
+        { w: 49, d: "30. nov", type: "martin", txt: "", dateISO: "20261130" },
+        { w: 50, d: "07. dec", type: "team", p1: "Charlotte", p2: "Hans", dateISO: "20261207" },
+        { w: 51, d: "14. dec", type: "martin", txt: "", dateISO: "20261214" },
+        { w: 52, d: "21. dec", type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20261221" },
+        { w: 53, d: "28. dec", type: "martin", txt: "Nytår", dateISO: "20261228" },
+    ];
+
+    function filterSchedule() {
+        const selectedName = document.getElementById('nameFilter').value;
+        const container = document.getElementById('schedule-container');
+        const outlookBtn = document.getElementById('outlookBtn');
+        const timeGroup = document.getElementById('timeGroup');
+        
+        container.innerHTML = '';
+        
+        // UI State
+        if (selectedName !== "Alle") {
+            outlookBtn.style.display = "block";
+            timeGroup.style.display = "flex";
+            outlookBtn.innerText = `📅 Hent ${selectedName}s kalenderfil`;
+        } else {
+            outlookBtn.style.display = "none";
+            timeGroup.style.display = "none";
+        }
+
+        schedule.forEach(item => {
+            let show = false;
+            
+            if (selectedName === "Alle") {
+                show = true;
+            } else if (item.type === 'holiday') {
+                show = true; 
+            } else if (item.type === 'team') {
+                if (item.p1 === selectedName || item.p2 === selectedName) show = true;
+            } else if (item.type === 'martin' && selectedName === 'Martin') {
+                show = true;
+            }
+
+            if (!show) return;
+
+            if (item.q) {
+                const div = document.createElement('div');
+                div.className = 'quarter-divider';
+                div.innerText = item.q;
+                container.appendChild(div);
+            }
+
+            const row = document.createElement('div');
+            row.className = item.type === 'holiday' ? 'row holiday' : 'row';
+
+            let html = `<div class="col-week">${item.w}</div><div class="col-date">${item.d}</div>`;
+
+            if (item.type === 'holiday') {
+                html += `<div class="holiday-text">${item.txt}</div>`;
+            } else {
+                html += `<div class="bar-cell">`;
+                if (item.type === 'martin') {
+                    const txt = item.txt ? ` (${item.txt})` : '';
+                    html += `<div class="bar martin">${martinLabel}${txt}</div>`;
+                }
+                html += `</div>`;
+                html += `<div class="bar-cell">`;
+                if (item.type === 'team') {
+                    let pText = `${item.p1} & ${item.p2}`;
+                    html += `<div class="bar team">${pText}</div>`;
+                }
+                html += `</div>`;
+            }
+
+            row.innerHTML = html;
+            container.appendChild(row);
+        });
+    }
+
+    function getFullOverviewText(name) {
+        let text = "\\n--- DIN OVERSIGT FOR 2026 ---\\n";
+        schedule.forEach(item => {
+            if (item.type === 'holiday') return;
+            
+            let isRelevant = false;
+            let info = "";
+
+            if (item.type === 'martin' && name === 'Martin') {
+                info = "Sikkerhedsrundgang (Solo)";
+                text += `Uge ${item.w} (${item.d}): ${info}\\n`;
+            } else if (item.type === 'team' && (item.p1 === name || item.p2 === name)) {
+                const partner = item.p1 === name ? item.p2 : item.p1;
+                info = `Med ${partner}`;
+                text += `Uge ${item.w} (${item.d}): ${info}\\n`;
+            }
+        });
+        return text;
+    }
+
+    function downloadICS() {
+        const name = document.getElementById('nameFilter').value;
+        const timeVal = document.getElementById('timeSelect').value;
+        
+        if (name === "Alle") return alert("Vælg venligst et navn først.");
+
+        // Parse selected time
+        const [hours, minutes] = timeVal.split(':');
+        
+        // Define Header Text (Disclaimer + Links)
+        const placeholderText = "Disse er placeholdere - husk selv at arrangere i din kalender Safety Walk med din kollega, eller alene.\\n\\n";
+        const linkText = `Husk at registrere gåede rundgange i checklisten via:\\n${linkChecklist} (Link)\\n\\nDu kan finde Group spørgeskemaet via:\\n${linkSharepoint} (Link)\\n`;
+        const descHeader = placeholderText + linkText;
+
+        // Generate Full Year Overview for Footer
+        const descFooter = getFullOverviewText(name);
+
+        let icsContent = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SafetyWalk//DK\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\n";
+        
+        schedule.forEach(item => {
+            if (item.type === 'holiday') return;
+
+            let isRelevant = false;
+            let summary = "";
+
+            if (item.type === 'martin' && name === 'Martin') {
+                isRelevant = true;
+                summary = `Reminder: ${martinLabel}`;
+            } else if (item.type === 'team' && (item.p1 === name || item.p2 === name)) {
+                isRelevant = true;
+                const partner = item.p1 === name ? item.p2 : item.p1;
+                summary = `Reminder: Safety Walk med ${partner}`;
+            }
+
+            if (isRelevant && item.dateISO) {
+                // Calculate Start/End based on selected time
+                const dtStart = `${item.dateISO}T${hours}${minutes}00`;
+                
+                // End time + 30 mins
+                let endH = parseInt(hours);
+                let endM = parseInt(minutes) + 30;
+                if(endM >= 60) { endH++; endM -= 60; }
+                const endHStr = endH.toString().padStart(2, '0');
+                const endMStr = endM.toString().padStart(2, '0');
+                const dtEnd = `${item.dateISO}T${endHStr}${endMStr}00`;
+                
+                // Combine Description
+                const fullDescription = descHeader + descFooter;
+
+                icsContent += "BEGIN:VEVENT\r\n";
+                icsContent += `SUMMARY:${summary}\r\n`;
+                icsContent += `DTSTART:${dtStart}\r\n`;
+                icsContent += `DTEND:${dtEnd}\r\n`;
+                icsContent += `DESCRIPTION:${fullDescription}\r\n`;
+                icsContent += "STATUS:CONFIRMED\r\n";
+                icsContent += "TRANSP:OPAQUE\r\n"; // Mark as Busy
+                icsContent += "END:VEVENT\r\n";
+            }
+        });
+
+        icsContent += "END:VCALENDAR";
+
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.setAttribute('download', `SafetyWalk_2026_${name}.ics`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Initialize
+    filterSchedule();
+</script>
+
 </body>
 </html>
