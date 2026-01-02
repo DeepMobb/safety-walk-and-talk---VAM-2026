@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Walk Plan 2026 - Master</title>
+    <title>Safety Walk Plan 2026 - No Dates</title>
     <style>
         :root {
-            --color-martin: #27ae60;
-            --color-team: #2980b9;
-            --color-holiday: #e74c3c;
+            --color-fixed: #27ae60; /* Green for Martin/Kasper */
+            --color-team: #2980b9;  /* Blue for Team */
+            --color-maint: #f39c12; /* Orange for Maintenance */
             --bg-header: #2c3e50;
             --bg-btn: #2980b9;
         }
@@ -22,7 +22,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1000px; /* Slightly narrower since date col is gone */
             margin: 0 auto;
             background: white;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -35,101 +35,68 @@
         h1 { text-align: center; color: var(--bg-header); margin-top: 30px; margin-bottom: 5px; }
         .subtitle { text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 0.9em; }
 
-        /* Controls Section */
+        /* Controls */
         .controls {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            background-color: #ecf0f1;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #bdc3c7;
+            display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 15px;
+            background-color: #ecf0f1; padding: 20px; margin-bottom: 20px; border-bottom: 1px solid #bdc3c7;
         }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
+        .control-group { display: flex; flex-direction: column; gap: 5px; }
         label { font-size: 0.8em; font-weight: bold; color: #7f8c8d; }
-
-        select, input[type="time"] {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
+        select, input[type="time"] { padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; }
         .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background 0.2s;
-            color: white;
-            height: 42px;
-            margin-top: 19px; /* Align with inputs */
+            padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: bold;
+            transition: background 0.2s; color: white; height: 42px; margin-top: 19px;
         }
-
         .btn-outlook { background-color: var(--bg-btn); display: none; }
         .btn-outlook:hover { background-color: #1c5980; }
         .btn-print { background-color: #7f8c8d; }
         .btn-print:hover { background-color: #616b6b; }
 
-        /* Grid Layout */
+        /* Grid - Updated Columns (Removed Date) */
         .header-row {
-            display: grid;
-            grid-template-columns: 50px 80px 1fr 1fr;
-            background-color: var(--bg-header);
-            color: white;
-            font-weight: bold;
-            padding: 12px 15px;
-            position: sticky;
-            top: 0;
-            font-size: 0.95em;
+            display: grid; grid-template-columns: 60px 1fr 1fr; /* Removed one column */
+            background-color: var(--bg-header); color: white; font-weight: bold;
+            padding: 12px 15px; position: sticky; top: 0; font-size: 0.95em;
         }
-
         .row {
-            display: grid;
-            grid-template-columns: 50px 80px 1fr 1fr;
-            border-bottom: 1px solid #eee;
-            align-items: center;
-            height: 44px;
-            font-size: 0.9em;
+            display: grid; grid-template-columns: 60px 1fr 1fr; /* Removed one column */
+            border-bottom: 1px solid #eee; align-items: center; min-height: 44px; font-size: 0.9em;
         }
         .row:nth-child(even) { background-color: #fafafa; }
-        .col-week { text-align: center; font-weight: bold; color: #7f8c8d; border-right: 1px solid #eee; }
-        .col-date { padding-left: 10px; color: #95a5a6; font-size: 0.85em; border-right: 1px solid #eee; }
         
-        .bar-cell { padding: 4px 8px; height: 100%; display: flex; align-items: center; }
+        .col-week { text-align: center; font-weight: bold; color: #7f8c8d; border-right: 1px solid #eee; display: flex; align-items: center; justify-content: center; height: 100%; }
+        
+        .bar-cell { padding: 4px 8px; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+        
         .bar {
-            height: 30px; border-radius: 4px; display: flex; align-items: center;
+            height: 26px; border-radius: 4px; display: flex; align-items: center;
             padding-left: 10px; color: white; width: 100%; font-weight: 500; font-size: 0.85em;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        .bar.martin { background-color: var(--color-martin); }
+        .bar.fixed { background-color: var(--color-fixed); }
         .bar.team { background-color: var(--color-team); }
         
+        /* Special Rows */
         .quarter-divider {
             background-color: #dfe6e9; color: #2d3436; padding: 8px 15px;
             font-size: 0.85em; text-transform: uppercase; font-weight: bold;
             border-top: 2px solid #bdc3c7; border-bottom: 1px solid #bdc3c7;
         }
-
-        .row.holiday { background-color: #ffe6e6; }
-        .holiday-text { 
-            color: #c0392b; font-weight: bold; display: flex; align-items: center; 
-            justify-content: center; width: 100%; grid-column: 3 / 5; letter-spacing: 2px;
+        .row.maintenance { background-color: #fff3cd !important; border-bottom: 1px solid #f1c40f; }
+        .maint-label { 
+            font-size: 0.75em; color: #d35400; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;
         }
+
+        /* Legend */
+        .legend { display: flex; justify-content: center; gap: 20px; padding: 10px; font-size: 0.85em; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
 
         @media print {
             .controls, .btn { display: none; }
             body { background: white; }
             .container { box-shadow: none; }
+            .row.maintenance { background-color: #fff3cd !important; -webkit-print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -137,21 +104,29 @@
 
 <div class="container">
     <h1>Safety Walk & Talk 2026</h1>
-    <div class="subtitle">Vælg navn og tidspunkt for at hente din personlige plan til Outlook</div>
+    <div class="subtitle">Inkl. Vedligeholdelsesstop (Uge 28-30)</div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="dot" style="background:var(--color-fixed)"></div><div>FVP (Martin) / FVV (Kasper)</div></div>
+        <div class="legend-item"><div class="dot" style="background:var(--color-team)"></div><div>Team Rotation</div></div>
+        <div class="legend-item"><div class="dot" style="background:var(--color-maint)"></div><div>Vedligeholdelsesstop</div></div>
+    </div>
 
     <div class="controls">
         <div class="control-group">
             <label for="nameFilter">Vælg Navn:</label>
             <select id="nameFilter" onchange="filterSchedule()">
                 <option value="Alle">Vis Alle</option>
+                <option disabled>--- Faste (Ulige uger) ---</option>
+                <option value="Martin">Martin (FVP)</option>
+                <option value="Kasper">Kasper (FVV)</option>
+                <option disabled>--- Team (Lige uger) ---</option>
                 <option value="Hans">Hans</option>
                 <option value="Johannes">Johannes</option>
                 <option value="Kristian">Kristian</option>
                 <option value="Mona">Mona</option>
                 <option value="Charlotte">Charlotte</option>
                 <option value="Claus">Claus</option>
-                <option value="Kasper">Kasper</option>
-                <option value="Martin">Martin</option>
                 <option value="Peter">Peter</option>
             </select>
         </div>
@@ -162,84 +137,82 @@
         </div>
         
         <button class="btn btn-outlook" id="outlookBtn" onclick="downloadICS()">📅 Hent kalenderfil</button>
-        <button class="btn btn-print" onclick="window.print()">🖨️ Print listen</button>
+        <button class="btn btn-print" onclick="window.print()">🖨️ Print</button>
     </div>
 
     <div class="header-row">
         <div>Uge</div>
-        <div>Dato</div>
-        <div>Martin Solo</div>
-        <div>Safety Walk Team</div>
+        <div>Faste (Ulige)</div>
+        <div>Team (Lige)</div>
     </div>
 
-    <div id="schedule-container">
-        </div>
+    <div id="schedule-container"></div>
 </div>
 
 <script>
     // Configuration
-    const martinLabel = "Martins planlagte sikkerhedsrundgange hver 2. uge";
     const linkChecklist = "https://eropexvam.ecos.dk/#/tjeklister/60af5160f88629d31c4b935e";
     const linkSharepoint = "https://rockwool.sharepoint.com/:w:/s/RWNordics/Departments/Production/Internal/VAM/EabLKDtF_nFIs0A-qfqKeSEBbLyUGrvSKyneHZ5dpMairA?e=JamNcN";
 
-    // Data
+    // Data Structure - Still needs ISO date for Outlook export, but removed display date
     const schedule = [
-        { q: "1. Kvartal", w: 1, d: "29. dec", type: "martin", txt: "Opstart", dateISO: "20251229" },
-        { w: 2, d: "05. jan", type: "team", p1: "Hans", p2: "Kristian", dateISO: "20260105" },
-        { w: 3, d: "12. jan", type: "martin", txt: "", dateISO: "20260112" },
-        { w: 4, d: "19. jan", type: "team", p1: "Johannes", p2: "Mona", dateISO: "20260119" },
-        { w: 5, d: "26. jan", type: "martin", txt: "", dateISO: "20260126" },
-        { w: 6, d: "02. feb", type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20260202" },
-        { w: 7, d: "09. feb", type: "martin", txt: "", dateISO: "20260209" },
-        { w: 8, d: "16. feb", type: "team", p1: "Kasper", p2: "Peter", dateISO: "20260216" },
-        { w: 9, d: "23. feb", type: "martin", txt: "", dateISO: "20260223" },
-        { w: 10, d: "02. mar", type: "team", p1: "Martin", p2: "Hans", dateISO: "20260302" },
-        { w: 11, d: "09. mar", type: "martin", txt: "", dateISO: "20260309" },
-        { w: 12, d: "16. mar", type: "team", p1: "Kristian", p2: "Johannes", dateISO: "20260316" },
-        { w: 13, d: "23. mar", type: "martin", txt: "Påskeuge", dateISO: "20260323" },
+        { q: "1. Kvartal", w: 2, type: "team", p1: "Hans", p2: "Johannes", dateISO: "20260105" },
+        { w: 3, type: "fixed", dateISO: "20260112" },
+        { w: 4, type: "team", p1: "Kristian", p2: "Mona", dateISO: "20260119" },
+        { w: 5, type: "fixed", dateISO: "20260126" },
+        { w: 6, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20260202" },
+        { w: 7, type: "fixed", dateISO: "20260209" },
+        { w: 8, type: "team", p1: "Peter", p2: "Hans", dateISO: "20260216" },
+        { w: 9, type: "fixed", dateISO: "20260223" },
+        { w: 10, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20260302" },
+        { w: 11, type: "fixed", dateISO: "20260309" },
+        { w: 12, type: "team", p1: "Mona", p2: "Charlotte", dateISO: "20260316" },
+        { w: 13, type: "fixed", txt: "Påskeuge", dateISO: "20260323" },
 
-        { q: "2. Kvartal", w: 14, d: "30. mar", type: "team", p1: "Mona", p2: "Claus", dateISO: "20260330" },
-        { w: 15, d: "06. apr", type: "martin", txt: "", dateISO: "20260406" },
-        { w: 16, d: "13. apr", type: "team", p1: "Charlotte", p2: "Kasper", dateISO: "20260413" },
-        { w: 17, d: "20. apr", type: "martin", txt: "", dateISO: "20260420" },
-        { w: 18, d: "27. apr", type: "team", p1: "Peter", p2: "Martin", dateISO: "20260427" },
-        { w: 19, d: "04. maj", type: "martin", txt: "", dateISO: "20260504" },
-        { w: 20, d: "11. maj", type: "team", p1: "Hans", p2: "Johannes", dateISO: "20260511" },
-        { w: 21, d: "18. maj", type: "martin", txt: "", dateISO: "20260518" },
-        { w: 22, d: "25. maj", type: "team", p1: "Kristian", p2: "Mona", dateISO: "20260525" },
-        { w: 23, d: "01. jun", type: "martin", txt: "", dateISO: "20260601" },
-        { w: 24, d: "08. jun", type: "team", p1: "Claus", p2: "Charlotte", dateISO: "20260608" },
-        { w: 25, d: "15. jun", type: "martin", txt: "", dateISO: "20260615" },
-        { w: 26, d: "22. jun", type: "team", p1: "Kasper", p2: "Martin", dateISO: "20260622" },
+        { q: "2. Kvartal", w: 14, type: "team", p1: "Claus", p2: "Peter", dateISO: "20260330" },
+        { w: 15, type: "fixed", dateISO: "20260406" },
+        { w: 16, type: "team", p1: "Hans", p2: "Kristian", dateISO: "20260413" },
+        { w: 17, type: "fixed", dateISO: "20260420" },
+        { w: 18, type: "team", p1: "Johannes", p2: "Mona", dateISO: "20260427" },
+        { w: 19, type: "fixed", dateISO: "20260504" },
+        { w: 20, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20260511" },
+        { w: 21, type: "fixed", dateISO: "20260518" },
+        { w: 22, type: "team", p1: "Peter", p2: "Hans", dateISO: "20260525" },
+        { w: 23, type: "fixed", dateISO: "20260601" },
+        { w: 24, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20260608" },
+        { w: 25, type: "fixed", dateISO: "20260615" },
+        { w: 26, type: "team", p1: "Mona", p2: "Charlotte", dateISO: "20260622" },
+        { w: 27, type: "fixed", dateISO: "20260629" },
+        
+        // MAINTENANCE STOP (28, 29, 30) - Active weeks
+        { q: "Vedligeholdelsesstop (Sommer)", w: 28, type: "team", p1: "Claus", p2: "Peter", maint: true, dateISO: "20260706" },
+        { w: 29, type: "fixed", maint: true, dateISO: "20260713" },
+        { w: 30, type: "team", p1: "Hans", p2: "Kristian", maint: true, dateISO: "20260720" },
 
-        { q: "3. Kvartal (Sommer)", w: 27, d: "29. jun", type: "martin", txt: "", dateISO: "20260629" },
-        { w: 28, d: "06. jul", type: "holiday", txt: "SOMMERFERIE" },
-        { w: 29, d: "13. jul", type: "holiday", txt: "SOMMERFERIE" },
-        { w: 30, d: "20. jul", type: "holiday", txt: "SOMMERFERIE" },
-        { w: 31, d: "27. jul", type: "martin", txt: "Opstart", dateISO: "20260727" },
-        { w: 32, d: "03. aug", type: "team", p1: "Peter", p2: "Hans", dateISO: "20260803" },
-        { w: 33, d: "10. aug", type: "martin", txt: "", dateISO: "20260810" },
-        { w: 34, d: "17. aug", type: "team", p1: "Johannes", p2: "Claus", dateISO: "20260817" },
-        { w: 35, d: "24. aug", type: "martin", txt: "", dateISO: "20260824" },
-        { w: 36, d: "31. aug", type: "team", p1: "Kristian", p2: "Charlotte", dateISO: "20260831" },
-        { w: 37, d: "07. sep", type: "martin", txt: "", dateISO: "20260907" },
-        { w: 38, d: "14. sep", type: "team", p1: "Mona", p2: "Kasper", dateISO: "20260914" },
-        { w: 39, d: "21. sep", type: "martin", txt: "", dateISO: "20260921" },
+        { q: "3. Kvartal", w: 31, type: "fixed", dateISO: "20260727" },
+        { w: 32, type: "team", p1: "Johannes", p2: "Mona", dateISO: "20260803" },
+        { w: 33, type: "fixed", dateISO: "20260810" },
+        { w: 34, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20260817" },
+        { w: 35, type: "fixed", dateISO: "20260824" },
+        { w: 36, type: "team", p1: "Peter", p2: "Hans", dateISO: "20260831" },
+        { w: 37, type: "fixed", dateISO: "20260907" },
+        { w: 38, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20260914" },
+        { w: 39, type: "fixed", dateISO: "20260921" },
 
-        { q: "4. Kvartal", w: 40, d: "28. sep", type: "team", p1: "Martin", p2: "Peter", dateISO: "20260928" },
-        { w: 41, d: "05. okt", type: "martin", txt: "", dateISO: "20261005" },
-        { w: 42, d: "12. okt", type: "team", p1: "Hans", p2: "Mona", dateISO: "20261012" },
-        { w: 43, d: "19. okt", type: "martin", txt: "", dateISO: "20261019" },
-        { w: 44, d: "26. okt", type: "team", p1: "Johannes", p2: "Kasper", dateISO: "20261026" },
-        { w: 45, d: "02. nov", type: "martin", txt: "", dateISO: "20261102" },
-        { w: 46, d: "09. nov", type: "team", p1: "Kristian", p2: "Peter", dateISO: "20261109" },
-        { w: 47, d: "16. nov", type: "martin", txt: "", dateISO: "20261116" },
-        { w: 48, d: "23. nov", type: "team", p1: "Claus", p2: "Martin", dateISO: "20261123" },
-        { w: 49, d: "30. nov", type: "martin", txt: "", dateISO: "20261130" },
-        { w: 50, d: "07. dec", type: "team", p1: "Charlotte", p2: "Hans", dateISO: "20261207" },
-        { w: 51, d: "14. dec", type: "martin", txt: "", dateISO: "20261214" },
-        { w: 52, d: "21. dec", type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20261221" },
-        { w: 53, d: "28. dec", type: "martin", txt: "Nytår", dateISO: "20261228" },
+        { q: "4. Kvartal", w: 40, type: "team", p1: "Mona", p2: "Charlotte", dateISO: "20260928" },
+        { w: 41, type: "fixed", dateISO: "20261005" },
+        { w: 42, type: "team", p1: "Claus", p2: "Peter", dateISO: "20261012" },
+        { w: 43, type: "fixed", dateISO: "20261019" },
+        { w: 44, type: "team", p1: "Hans", p2: "Kristian", dateISO: "20261026" },
+        { w: 45, type: "fixed", dateISO: "20261102" },
+        { w: 46, type: "team", p1: "Johannes", p2: "Mona", dateISO: "20261109" },
+        { w: 47, type: "fixed", dateISO: "20261116" },
+        { w: 48, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20261123" },
+        { w: 49, type: "fixed", dateISO: "20261130" },
+        { w: 50, type: "team", p1: "Peter", p2: "Hans", dateISO: "20261207" },
+        { w: 51, type: "fixed", dateISO: "20261214" },
+        { w: 52, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20261221" },
+        { w: 53, type: "fixed", txt: "Nytår", dateISO: "20261228" },
     ];
 
     function filterSchedule() {
@@ -263,18 +236,18 @@
         schedule.forEach(item => {
             let show = false;
             
+            // Filtering Logic
             if (selectedName === "Alle") {
                 show = true;
-            } else if (item.type === 'holiday') {
-                show = true; 
             } else if (item.type === 'team') {
                 if (item.p1 === selectedName || item.p2 === selectedName) show = true;
-            } else if (item.type === 'martin' && selectedName === 'Martin') {
-                show = true;
+            } else if (item.type === 'fixed') {
+                if (selectedName === 'Martin' || selectedName === 'Kasper') show = true;
             }
 
             if (!show) return;
 
+            // Render Quarter
             if (item.q) {
                 const div = document.createElement('div');
                 div.className = 'quarter-divider';
@@ -282,27 +255,40 @@
                 container.appendChild(div);
             }
 
+            // Render Row
             const row = document.createElement('div');
-            row.className = item.type === 'holiday' ? 'row holiday' : 'row';
+            row.className = item.maint ? 'row maintenance' : 'row';
 
-            let html = `<div class="col-week">${item.w}</div><div class="col-date">${item.d}</div>`;
+            // Uge
+            let html = `<div class="col-week">${item.w}</div>`;
 
-            if (item.type === 'holiday') {
-                html += `<div class="holiday-text">${item.txt}</div>`;
-            } else {
-                html += `<div class="bar-cell">`;
-                if (item.type === 'martin') {
-                    const txt = item.txt ? ` (${item.txt})` : '';
-                    html += `<div class="bar martin">${martinLabel}${txt}</div>`;
+            // Column 1: Fixed (Martin/Kasper)
+            html += `<div class="bar-cell">`;
+            if (item.type === 'fixed') {
+                let labelMartin = "Martin (FVP)";
+                let labelKasper = "Kasper (FVV)";
+                if(item.txt) { labelMartin += ` (${item.txt})`; labelKasper += ` (${item.txt})`; }
+
+                if (selectedName === "Alle") {
+                    html += `<div class="bar fixed" style="font-size:0.75em">${labelMartin}</div>`;
+                    html += `<div class="bar fixed" style="font-size:0.75em">${labelKasper}</div>`;
+                } else if (selectedName === "Martin") {
+                    html += `<div class="bar fixed">${labelMartin}</div>`;
+                } else if (selectedName === "Kasper") {
+                    html += `<div class="bar fixed">${labelKasper}</div>`;
                 }
-                html += `</div>`;
-                html += `<div class="bar-cell">`;
-                if (item.type === 'team') {
-                    let pText = `${item.p1} & ${item.p2}`;
-                    html += `<div class="bar team">${pText}</div>`;
-                }
-                html += `</div>`;
             }
+            if(item.maint && item.type === 'fixed') html += `<div class="maint-label">Vedligehold</div>`;
+            html += `</div>`;
+
+            // Column 2: Team
+            html += `<div class="bar-cell">`;
+            if (item.type === 'team') {
+                let pText = `${item.p1} & ${item.p2}`;
+                html += `<div class="bar team">${pText}</div>`;
+            }
+            if(item.maint && item.type === 'team') html += `<div class="maint-label">Vedligehold</div>`;
+            html += `</div>`;
 
             row.innerHTML = html;
             container.appendChild(row);
@@ -312,18 +298,25 @@
     function getFullOverviewText(name) {
         let text = "\\n--- DIN OVERSIGT FOR 2026 ---\\n";
         schedule.forEach(item => {
-            if (item.type === 'holiday') return;
-            
             let isRelevant = false;
             let info = "";
 
-            if (item.type === 'martin' && name === 'Martin') {
-                info = "Sikkerhedsrundgang (Solo)";
-                text += `Uge ${item.w} (${item.d}): ${info}\\n`;
-            } else if (item.type === 'team' && (item.p1 === name || item.p2 === name)) {
-                const partner = item.p1 === name ? item.p2 : item.p1;
-                info = `Med ${partner}`;
-                text += `Uge ${item.w} (${item.d}): ${info}\\n`;
+            if (item.type === 'fixed') {
+                if (name === 'Martin') { isRelevant = true; info = "FVP Rundgang"; }
+                if (name === 'Kasper') { isRelevant = true; info = "FVV Rundgang"; }
+            } else if (item.type === 'team') {
+                if (item.p1 === name || item.p2 === name) {
+                    isRelevant = true;
+                    const partner = item.p1 === name ? item.p2 : item.p1;
+                    info = `Med ${partner}`;
+                }
+            }
+
+            if (isRelevant) {
+                let extra = item.maint ? " (Vedligeholdelsesstop)" : "";
+                // Use dateISO to find approx date or just skip date in text description since removed from UI
+                // I'll keep it simple: "Uge X: Info..."
+                text += `Uge ${item.w}: ${info}${extra}\\n`;
             }
         });
         return text;
@@ -335,39 +328,32 @@
         
         if (name === "Alle") return alert("Vælg venligst et navn først.");
 
-        // Parse selected time
         const [hours, minutes] = timeVal.split(':');
         
-        // Define Header Text (Disclaimer + Links)
         const placeholderText = "Disse er placeholdere - husk selv at arrangere i din kalender Safety Walk med din kollega, eller alene.\\n\\n";
         const linkText = `Husk at registrere gåede rundgange i checklisten via:\\n${linkChecklist} (Link)\\n\\nDu kan finde Group spørgeskemaet via:\\n${linkSharepoint} (Link)\\n`;
         const descHeader = placeholderText + linkText;
-
-        // Generate Full Year Overview for Footer
         const descFooter = getFullOverviewText(name);
 
         let icsContent = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SafetyWalk//DK\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\n";
         
         schedule.forEach(item => {
-            if (item.type === 'holiday') return;
-
             let isRelevant = false;
             let summary = "";
 
-            if (item.type === 'martin' && name === 'Martin') {
-                isRelevant = true;
-                summary = `Reminder: ${martinLabel}`;
-            } else if (item.type === 'team' && (item.p1 === name || item.p2 === name)) {
-                isRelevant = true;
-                const partner = item.p1 === name ? item.p2 : item.p1;
-                summary = `Reminder: Safety Walk med ${partner}`;
+            if (item.type === 'fixed') {
+                if (name === 'Martin') { isRelevant = true; summary = "Reminder: FVP med Martin"; }
+                if (name === 'Kasper') { isRelevant = true; summary = "Reminder: FVV med Kasper"; }
+            } else if (item.type === 'team') {
+                if (item.p1 === name || item.p2 === name) {
+                    isRelevant = true;
+                    const partner = item.p1 === name ? item.p2 : item.p1;
+                    summary = `Reminder: Safety Walk med ${partner}`;
+                }
             }
 
             if (isRelevant && item.dateISO) {
-                // Calculate Start/End based on selected time
                 const dtStart = `${item.dateISO}T${hours}${minutes}00`;
-                
-                // End time + 30 mins
                 let endH = parseInt(hours);
                 let endM = parseInt(minutes) + 30;
                 if(endM >= 60) { endH++; endM -= 60; }
@@ -375,7 +361,8 @@
                 const endMStr = endM.toString().padStart(2, '0');
                 const dtEnd = `${item.dateISO}T${endHStr}${endMStr}00`;
                 
-                // Combine Description
+                if(item.maint) summary += " (Vedligehold)";
+
                 const fullDescription = descHeader + descFooter;
 
                 icsContent += "BEGIN:VEVENT\r\n";
@@ -384,7 +371,7 @@
                 icsContent += `DTEND:${dtEnd}\r\n`;
                 icsContent += `DESCRIPTION:${fullDescription}\r\n`;
                 icsContent += "STATUS:CONFIRMED\r\n";
-                icsContent += "TRANSP:OPAQUE\r\n"; // Mark as Busy
+                icsContent += "TRANSP:OPAQUE\r\n"; 
                 icsContent += "END:VEVENT\r\n";
             }
         });
