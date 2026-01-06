@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Walk Plan 2026 - No Dates</title>
+    <title>Safety Walk & Talk 2026 - Opdateret Team</title>
     <style>
         :root {
             --color-fixed: #27ae60; /* Green for Martin/Kasper */
@@ -22,7 +22,7 @@
         }
 
         .container {
-            max-width: 1000px; /* Slightly narrower since date col is gone */
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -52,14 +52,14 @@
         .btn-print { background-color: #7f8c8d; }
         .btn-print:hover { background-color: #616b6b; }
 
-        /* Grid - Updated Columns (Removed Date) */
+        /* Grid - No Date Column */
         .header-row {
-            display: grid; grid-template-columns: 60px 1fr 1fr; /* Removed one column */
+            display: grid; grid-template-columns: 60px 1fr 1fr;
             background-color: var(--bg-header); color: white; font-weight: bold;
             padding: 12px 15px; position: sticky; top: 0; font-size: 0.95em;
         }
         .row {
-            display: grid; grid-template-columns: 60px 1fr 1fr; /* Removed one column */
+            display: grid; grid-template-columns: 60px 1fr 1fr;
             border-bottom: 1px solid #eee; align-items: center; min-height: 44px; font-size: 0.9em;
         }
         .row:nth-child(even) { background-color: #fafafa; }
@@ -124,10 +124,8 @@
                 <option value="Hans">Hans</option>
                 <option value="Johannes">Johannes</option>
                 <option value="Kristian">Kristian</option>
-                <option value="Mona">Mona</option>
                 <option value="Charlotte">Charlotte</option>
                 <option value="Claus">Claus</option>
-                <option value="Peter">Peter</option>
             </select>
         </div>
 
@@ -154,64 +152,67 @@
     const linkChecklist = "https://eropexvam.ecos.dk/#/tjeklister/60af5160f88629d31c4b935e";
     const linkSharepoint = "https://rockwool.sharepoint.com/:w:/s/RWNordics/Departments/Production/Internal/VAM/EabLKDtF_nFIs0A-qfqKeSEBbLyUGrvSKyneHZ5dpMairA?e=JamNcN";
 
-    // Data Structure - Still needs ISO date for Outlook export, but removed display date
+    // Data Structure
+    // Participants: Hans, Johannes, Kristian, Charlotte, Claus (5 people)
+    // Rotation logic: Ensuring all walk with all over time.
+    
     const schedule = [
         { q: "1. Kvartal", w: 2, type: "team", p1: "Hans", p2: "Johannes", dateISO: "20260105" },
         { w: 3, type: "fixed", dateISO: "20260112" },
-        { w: 4, type: "team", p1: "Kristian", p2: "Mona", dateISO: "20260119" },
+        { w: 4, type: "team", p1: "Kristian", p2: "Charlotte", dateISO: "20260119" },
         { w: 5, type: "fixed", dateISO: "20260126" },
-        { w: 6, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20260202" },
+        { w: 6, type: "team", p1: "Claus", p2: "Hans", dateISO: "20260202" },
         { w: 7, type: "fixed", dateISO: "20260209" },
-        { w: 8, type: "team", p1: "Peter", p2: "Hans", dateISO: "20260216" },
+        { w: 8, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20260216" },
         { w: 9, type: "fixed", dateISO: "20260223" },
-        { w: 10, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20260302" },
+        { w: 10, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20260302" },
         { w: 11, type: "fixed", dateISO: "20260309" },
-        { w: 12, type: "team", p1: "Mona", p2: "Charlotte", dateISO: "20260316" },
+        { w: 12, type: "team", p1: "Hans", p2: "Kristian", dateISO: "20260316" },
         { w: 13, type: "fixed", txt: "Påskeuge", dateISO: "20260323" },
 
-        { q: "2. Kvartal", w: 14, type: "team", p1: "Claus", p2: "Peter", dateISO: "20260330" },
+        { q: "2. Kvartal", w: 14, type: "team", p1: "Johannes", p2: "Claus", dateISO: "20260330" },
         { w: 15, type: "fixed", dateISO: "20260406" },
-        { w: 16, type: "team", p1: "Hans", p2: "Kristian", dateISO: "20260413" },
+        { w: 16, type: "team", p1: "Charlotte", p2: "Hans", dateISO: "20260413" },
         { w: 17, type: "fixed", dateISO: "20260420" },
-        { w: 18, type: "team", p1: "Johannes", p2: "Mona", dateISO: "20260427" },
+        { w: 18, type: "team", p1: "Claus", p2: "Kristian", dateISO: "20260427" },
         { w: 19, type: "fixed", dateISO: "20260504" },
-        { w: 20, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20260511" },
+        { w: 20, type: "team", p1: "Johannes", p2: "Charlotte", dateISO: "20260511" },
         { w: 21, type: "fixed", dateISO: "20260518" },
-        { w: 22, type: "team", p1: "Peter", p2: "Hans", dateISO: "20260525" },
+        { w: 22, type: "team", p1: "Hans", p2: "Johannes", dateISO: "20260525" }, // Rotation restart/cycle
         { w: 23, type: "fixed", dateISO: "20260601" },
-        { w: 24, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20260608" },
+        { w: 24, type: "team", p1: "Kristian", p2: "Charlotte", dateISO: "20260608" },
         { w: 25, type: "fixed", dateISO: "20260615" },
-        { w: 26, type: "team", p1: "Mona", p2: "Charlotte", dateISO: "20260622" },
+        { w: 26, type: "team", p1: "Claus", p2: "Hans", dateISO: "20260622" },
         { w: 27, type: "fixed", dateISO: "20260629" },
         
         // MAINTENANCE STOP (28, 29, 30) - Active weeks
-        { q: "Vedligeholdelsesstop (Sommer)", w: 28, type: "team", p1: "Claus", p2: "Peter", maint: true, dateISO: "20260706" },
+        { q: "Vedligeholdelsesstop (Sommer)", w: 28, type: "team", p1: "Johannes", p2: "Kristian", maint: true, dateISO: "20260706" },
         { w: 29, type: "fixed", maint: true, dateISO: "20260713" },
-        { w: 30, type: "team", p1: "Hans", p2: "Kristian", maint: true, dateISO: "20260720" },
+        { w: 30, type: "team", p1: "Charlotte", p2: "Claus", maint: true, dateISO: "20260720" },
 
         { q: "3. Kvartal", w: 31, type: "fixed", dateISO: "20260727" },
-        { w: 32, type: "team", p1: "Johannes", p2: "Mona", dateISO: "20260803" },
+        { w: 32, type: "team", p1: "Hans", p2: "Kristian", dateISO: "20260803" },
         { w: 33, type: "fixed", dateISO: "20260810" },
-        { w: 34, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20260817" },
+        { w: 34, type: "team", p1: "Johannes", p2: "Claus", dateISO: "20260817" },
         { w: 35, type: "fixed", dateISO: "20260824" },
-        { w: 36, type: "team", p1: "Peter", p2: "Hans", dateISO: "20260831" },
+        { w: 36, type: "team", p1: "Charlotte", p2: "Hans", dateISO: "20260831" },
         { w: 37, type: "fixed", dateISO: "20260907" },
-        { w: 38, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20260914" },
+        { w: 38, type: "team", p1: "Claus", p2: "Kristian", dateISO: "20260914" },
         { w: 39, type: "fixed", dateISO: "20260921" },
 
-        { q: "4. Kvartal", w: 40, type: "team", p1: "Mona", p2: "Charlotte", dateISO: "20260928" },
+        { q: "4. Kvartal", w: 40, type: "team", p1: "Johannes", p2: "Charlotte", dateISO: "20260928" },
         { w: 41, type: "fixed", dateISO: "20261005" },
-        { w: 42, type: "team", p1: "Claus", p2: "Peter", dateISO: "20261012" },
+        { w: 42, type: "team", p1: "Hans", p2: "Johannes", dateISO: "20261012" },
         { w: 43, type: "fixed", dateISO: "20261019" },
-        { w: 44, type: "team", p1: "Hans", p2: "Kristian", dateISO: "20261026" },
+        { w: 44, type: "team", p1: "Kristian", p2: "Charlotte", dateISO: "20261026" },
         { w: 45, type: "fixed", dateISO: "20261102" },
-        { w: 46, type: "team", p1: "Johannes", p2: "Mona", dateISO: "20261109" },
+        { w: 46, type: "team", p1: "Claus", p2: "Hans", dateISO: "20261109" },
         { w: 47, type: "fixed", dateISO: "20261116" },
-        { w: 48, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20261123" },
+        { w: 48, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20261123" },
         { w: 49, type: "fixed", dateISO: "20261130" },
-        { w: 50, type: "team", p1: "Peter", p2: "Hans", dateISO: "20261207" },
+        { w: 50, type: "team", p1: "Charlotte", p2: "Claus", dateISO: "20261207" },
         { w: 51, type: "fixed", dateISO: "20261214" },
-        { w: 52, type: "team", p1: "Johannes", p2: "Kristian", dateISO: "20261221" },
+        { w: 52, type: "team", p1: "Hans", p2: "Kristian", dateISO: "20261221" },
         { w: 53, type: "fixed", txt: "Nytår", dateISO: "20261228" },
     ];
 
@@ -314,8 +315,6 @@
 
             if (isRelevant) {
                 let extra = item.maint ? " (Vedligeholdelsesstop)" : "";
-                // Use dateISO to find approx date or just skip date in text description since removed from UI
-                // I'll keep it simple: "Uge X: Info..."
                 text += `Uge ${item.w}: ${info}${extra}\\n`;
             }
         });
